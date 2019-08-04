@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="1" author="sha">
+        <sql>
+            CREATE TABLE course (
+            id BIGINT NOT NULL AUTO_INCREMENT,
+            title VARCHAR(255) NOT NULL,
+            author VARCHAR(255) NOT NULL,
+            category VARCHAR(255),
+            publish_date DATE,
+            CONSTRAINT pk_id PRIMARY KEY (id)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE course;
+        </rollback>
+    </changeSet>
+    <changeSet id="2" author="sha">
+        <sql>
+            CREATE TABLE transaction (
+            id BIGINT NOT NULL AUTO_INCREMENT,
+            course_id BIGINT NOT NULL,
+            user_id BIGINT NOT NULL,
+            date_of_issue DATETIME,
+            CONSTRAINT pk_id PRIMARY KEY (id),
+            CONSTRAINT fk_tran_course FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE ON UPDATE CASCADE
+            );
+        </sql>
+        <rollback>
+            DROP TABLE transaction;
+        </rollback>
+    </changeSet>
+    <changeSet id="3" author="sha">
+        <sql>
+            INSERT INTO course (title, author, category, publish_date) VALUES('Microservices', 'Instructor 1', 'Programming', NOW());
+            INSERT INTO course (title, author, category, publish_date) VALUES('Java Programming', 'Instructor 2', 'Programming', NOW());
+            INSERT INTO course (title, author, category, publish_date) VALUES('Web Development', 'Instructor 3', 'Web', NOW());
+            INSERT INTO course (title, author, category, publish_date) VALUES('Mobile Application', 'Instructor 4', 'Mobile', NOW());
+            INSERT INTO course (title, author, category, publish_date) VALUES('Amazon Web Services', 'Instructor 5', 'Administration', NOW());
+        </sql>
+        <rollback>
+            TRUNCATE TABLE course;
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

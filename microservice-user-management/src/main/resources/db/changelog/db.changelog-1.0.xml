@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="1" author="senol">
+        <sql>
+            CREATE TABLE user (
+                id BIGINT NOT NULL AUTO_INCREMENT,
+                username VARCHAR(255) NOT NULL,
+                password VARCHAR(255) NOT NULL,
+                name VARCHAR(255) NOT NULL,
+                role VARCHAR(10) NOT NULL,
+                CONSTRAINT pk_id PRIMARY KEY (id)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE user;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="2" author="senol">
+        <sql>
+            ALTER TABLE user ADD email varchar(255);
+        </sql>
+        <rollback>
+            ALTER TABLE user DROP COLUMN email;
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
